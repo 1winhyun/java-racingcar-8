@@ -1,6 +1,9 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class InputView {
 
@@ -9,8 +12,29 @@ public class InputView {
         return Console.readLine();
     }
 
-    public static String inputAttempts(){
+    public static String inputAttempts() {
         System.out.println("시도할 횟수");
         return Console.readLine();
+    }
+
+    public static List<Car> parseCars(String names) {
+        if (names == null) {
+            throw new IllegalArgumentException();
+        }
+
+        String[] tokens = names.split(",");
+        List<Car> cars = new ArrayList<>();
+
+        for (String token : tokens) {
+            String name = token.trim();
+            RacingCarValidator.validateName(name);
+            cars.add(new Car(name));
+        }
+
+        if (cars.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        return Collections.unmodifiableList(cars);
     }
 }

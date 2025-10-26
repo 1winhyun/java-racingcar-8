@@ -14,6 +14,7 @@ public class RacingGame {
     public void run(int attempt) {
         for (int i = 0; i < attempt; i++) {
             oneRace();
+            OutputView.printRacingRound(cars);
         }
     }
 

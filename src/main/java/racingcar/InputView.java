@@ -35,7 +35,7 @@ public class InputView {
             throw new IllegalArgumentException("자동차는 한 대 이상이어야 합니다.");
         }
 
-        return Collections.unmodifiableList(cars);
+        return cars;
     }
 
     public static int parseAttempts(String attempts) {

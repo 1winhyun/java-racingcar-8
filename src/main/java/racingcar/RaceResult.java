@@ -21,7 +21,7 @@ public class RaceResult {
         int maxPosition = 0;
 
         for (Car car : cars) {
-            if (car.getLocation() == maxPosition) {
+            if (car.getLocation() > maxPosition) {
                 maxPosition = car.getLocation();
             }
         }

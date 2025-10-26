@@ -1,6 +1,8 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -110,6 +112,101 @@ class ApplicationTest extends NsTest {
                 assertThatThrownBy(() -> runException("pobi,javaji", "-1"))
                     .isInstanceOf(IllegalArgumentException.class)
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("Car 테스트")
+    class CarTest {
+        @Test
+        void 초기_위치_0() {
+            Car car = new Car("pobi");
+            assertThat(car.getLocation()).isZero();
+        }
+
+        @Test
+        void 숫자_3이하_정지() {
+            Car car = new Car("pobi");
+            car.move(0);
+            car.move(3);
+            assertThat(car.getLocation()).isZero();
+        }
+
+        @Test
+        void 숫자_4이상_이동() {
+            Car car = new Car("pobi");
+            car.move(4);
+            car.move(9);
+            assertThat(car.getLocation()).isEqualTo(2);
+        }
+    }
+
+    @Nested
+    @DisplayName("RacingGame 테스트")
+    class RacingGameTest {
+        @Test
+        void 한라운드_두대_다른결과() {
+            List<Car> cars = new ArrayList<>();
+            cars.add(new Car("pobi"));
+            cars.add(new Car("woni"));
+
+            RacingGame racingGame = new RacingGame(cars);
+
+            assertRandomNumberInRangeTest(() -> {
+                racingGame.run(1);
+                assertThat(cars.get(0).getLocation()).isEqualTo(1);
+                assertThat(cars.get(1).getLocation()).isEqualTo(0);
+            }, 4, 3);
+        }
+
+        @Test
+        void 두라운드_두대_이동() {
+            List<Car> cars = new ArrayList<>();
+            cars.add(new Car("pobi"));
+            cars.add(new Car("woni"));
+
+            RacingGame racingGame = new RacingGame(cars);
+
+            assertRandomNumberInRangeTest(() -> {
+                racingGame.run(2);
+                assertThat(cars.get(0).getLocation()).isEqualTo(1);
+                assertThat(cars.get(1).getLocation()).isEqualTo(1);
+            }, 3, 3, 9, 4);
+        }
+    }
+
+    @Nested
+    @DisplayName("RaceResult 테스트")
+    class RaceResultTest {
+        @Test
+        void 최대_위치_계산() {
+            Car a = new Car("pobi");
+            Car b = new Car("woni");
+            a.move(9);
+            a.move(9);
+            a.move(3);
+            assertThat(RaceResult.bestLocation(List.of(a, b))).isEqualTo(2);
+        }
+
+        @Test
+        void 우승자_한명() {
+            Car a = new Car("pobi");
+            Car b = new Car("woni");
+            a.move(9);
+            a.move(9);
+            a.move(3);
+            assertThat(RaceResult.pickWinners(List.of(a, b)))
+                .containsExactly("pobi");
+        }
+
+        @Test
+        void 우승자_두명() {
+            Car a = new Car("pobi");
+            Car b = new Car("woni");
+            a.move(9);
+            b.move(9);
+            assertThat(RaceResult.pickWinners(List.of(a, b)))
+                .containsExactly("pobi", "woni");
         }
     }
 

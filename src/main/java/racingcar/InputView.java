@@ -19,7 +19,7 @@ public class InputView {
 
     public static List<Car> parseCars(String names) {
         if (names == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("이름 입력이 비어있습니다.");
         }
 
         String[] tokens = names.split(",");
@@ -32,7 +32,7 @@ public class InputView {
         }
 
         if (cars.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("자동차는 한 대 이상이어야 합니다.");
         }
 
         return Collections.unmodifiableList(cars);

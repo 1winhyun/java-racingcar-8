@@ -1,4 +1,4 @@
-package racingcar.anotherway.domain.controller;
+package racingcar.anotherway.controller;
 
 import java.util.ArrayList;
 import java.util.List;
